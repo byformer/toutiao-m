@@ -8,7 +8,12 @@ const routes = [
       name:"login",
       path:"/login",  // 配置登录页面路由
       component:() => import('@/views/Login/index.vue')
-    }
+    },
+    {
+      name: 'home',
+      path: '/',
+      component: () => import('@/views/Home/index.vue'),
+    },
 ]
 
 const router = new VueRouter({

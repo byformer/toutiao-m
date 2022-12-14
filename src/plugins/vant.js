@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast} from 'vant';
+import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem} from 'vant';
 
 Vue.use(Button);
 Vue.use(NavBar);
@@ -9,3 +9,5 @@ Vue.use(Col);
 Vue.use(Row);
 Vue.use(CountDown);
 Vue.use(Toast);
+Vue.use(Tabbar);
+Vue.use(TabbarItem);
