@@ -5,9 +5,9 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-      path:"/login",  // 配置登录页面路由
       name:"login",
-      component:() => import('@/views/login')
+      path:"/login",  // 配置登录页面路由
+      component:() => import('@/views/Login/index.vue')
     }
 ]
 
