@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-login">
     <div class="contenter not-login">
       <div class="login-btn" @click="$router.push('/login')">
         <img class="mobile-img" src="@/assets/mobile.png" alt="" />
@@ -42,6 +42,7 @@
           </van-col>
         </van-row>
       </div>
+      <!-- 收藏 -->
       <van-grid column-num="2" class="grid-nav">
         <van-grid-item class="grid-item">
           <i slot="icon" class="iconfont icon-shoucang"></i>
@@ -52,6 +53,11 @@
           <span slot="icon" class="text">收藏</span>
         </van-grid-item>
       </van-grid>
+
+      <!-- 消息通知 -->
+      <van-cell title="消息通知" is-link />
+      <van-cell class="mb-9" title="小智同学" is-link />
+      <van-cell class="logout-cell" title="退出登录"/>
     </div>
   </div>
 </template>
@@ -144,26 +150,36 @@ export default {
   .grid-nav {
     .grid-item {
       height: 140px;
-    
+
       i.iconfont {
         font-size: 45px;
       }
       span.text {
         font-size: 28px;
       }
-      .icon-shoucang{
-        color:#eb5253      
+      .icon-shoucang {
+        color: #eb5253;
       }
-      .icon-lishi{
-        color:#ff9d1d;
+      .icon-lishi {
+        color: #ff9d1d;
       }
     }
-     /deep/ .van-hairline .van-grid-item__icon-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+    /deep/ .van-hairline .van-grid-item__icon-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
+  .logout-cell {
+    text-align: center;
+    color: #d86262;
+  }
+   .mb-9 {
+    // margin-bottom: px;
+  }
+}
+.my-login{
+  background-color:rgb(245,247,249)
 }
 </style>
 
