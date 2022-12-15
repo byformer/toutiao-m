@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: "HomePage",
+  name: "Layout",
   data() {
     return {
       // active: 0,

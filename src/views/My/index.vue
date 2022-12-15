@@ -1,13 +1,7 @@
 <template>
   <div class="my-login">
-    <div class="contenter not-login">
-      <div class="login-btn" @click="$router.push('/login')">
-        <img class="mobile-img" src="@/assets/mobile.png" alt="" />
-        <span class="my-text">登录 / 注册</span>
-      </div>
-    </div>
-
-    <div class="contenter user-info">
+    <!-- 已登录 -->
+    <div class="contenter user-info" v-if="user">
       <div class="base-info">
         <div class="left">
           <van-image
@@ -59,18 +53,29 @@
       <van-cell class="mb-9" title="小智同学" is-link />
       <van-cell class="logout-cell" title="退出登录"/>
     </div>
+    <!-- 未登录 -->
+    <div class="contenter not-login" v-else>
+      <div class="login-btn" @click="$router.push('/login')">
+        <img class="mobile-img" src="@/assets/mobile.png" alt="" />
+        <span class="my-text">登录 / 注册</span>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
-  name: "HomePage",
+  name: "MyPage",
   data() {
     return {};
   },
   components: {},
   props: {},
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
   created() {},
   mounted() {},
@@ -148,6 +153,7 @@ export default {
     }
   }
   .grid-nav {
+    margin-bottom:15px;
     .grid-item {
       height: 140px;
 
@@ -171,6 +177,7 @@ export default {
     }
   }
   .logout-cell {
+    margin-top: 10px;
     text-align: center;
     color: #d86262;
   }
@@ -179,6 +186,7 @@ export default {
   }
 }
 .my-login{
+  height:100vh;
   background-color:rgb(245,247,249)
 }
 </style>
