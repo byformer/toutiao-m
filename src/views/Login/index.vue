@@ -135,14 +135,19 @@ export default {
       })
       try {
         // 1. 发请求
-        const res = await login(values)
+        const {data} = await login(values)
+        this.$store.commit('setUser',data.data)
+        
+         this.$router.push({ name: 'layout' })
         // await new Promise(resolve => setTimeout(resolve, 5000))
         // 登录成功，
-        localStorage.setItem('token', JSON.stringify(res.data.data))
+        // localStorage.setItem('token', JSON.stringify(res.data.data))
+       
         // 要关闭加载中 toast
         this.$toast.clear()
         // 跳转首页，以后统统用 name 的方式跳路由，先死记，以后会给你们解释的~
-        this.$router.push({ name: 'layout' })
+       
+       
       } catch (err) {
         // 登录失败
         // vant 的 toast 只能存在一个，后面弹出来的，会把前面的关掉，所以这里不需要手动调用 clear 关闭 loading

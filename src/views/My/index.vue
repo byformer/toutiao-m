@@ -1,6 +1,11 @@
 <template>
  <div>
-    <p>我的</p>
+    <div class="contenter">
+        <div class="login-btn">
+          <img src="@/assets/mobile.png" alt="">
+          <span class="my-text">登录 / 注册</span>
+        </div>
+    </div>
  </div>
 </template>
 
@@ -23,6 +28,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.contenter{
+  height:400px;
+  background:url("@/assets/banner.png");
+  background-size: cover;
+}
 </style>
 
