@@ -1,6 +1,9 @@
 <template>
   <div class="login-container">
-    <van-nav-bar title="登录" />
+    <van-nav-bar title="登录" >
+      <!-- $router.back() banck就是后退的意思，从哪来回哪去 -->
+      <van-icon slot="left" name="cross" @click="$router.back()" />
+    </van-nav-bar>
 
     <van-form ref="form" @submit="onSubmit">
       <van-field
@@ -185,6 +188,9 @@ export default {
     transform: translateX(-50%);
     text-align: center;
     font-size: 30px;
+  }
+  .van-icon-cross{
+    color:#fff
   }
 }
 </style>

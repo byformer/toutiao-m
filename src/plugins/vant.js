@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem} from 'vant';
+import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem,Icon,
+    Image as VanImage,
+} from 'vant';
 
 Vue.use(Button);
 Vue.use(NavBar);
@@ -11,3 +13,5 @@ Vue.use(CountDown);
 Vue.use(Toast);
 Vue.use(Tabbar);
 Vue.use(TabbarItem);
+Vue.use(Icon);
+Vue.use(VanImage);
