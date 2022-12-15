@@ -11,7 +11,7 @@
       <div class="base-info">
         <div class="left">
           <van-image
-            
+            round
             class="avatar"
             fit="cover"
             src="https://img01.yzcdn.cn/vant/cat.jpeg"
@@ -22,7 +22,36 @@
           <van-button size="mini" round>编辑资料</van-button>
         </div>
       </div>
-      <div class="data-statas"></div>
+      <div class="data-statas">
+        <van-row type="flex" justify="center">
+          <van-col span="6" class="col-ment">
+            <span class="count">10</span>
+            <span class="text">头条</span>
+          </van-col>
+          <van-col span="6" class="col-ment">
+            <span class="count">98</span>
+            <span class="text">关注</span>
+          </van-col>
+          <van-col span="6" class="col-ment">
+            <span class="count">10</span>
+            <span class="text">粉丝</span>
+          </van-col>
+          <van-col span="6" class="col-ment">
+            <span class="count">10</span>
+            <span class="text">获赞</span>
+          </van-col>
+        </van-row>
+      </div>
+      <van-grid column-num="2" class="grid-nav">
+        <van-grid-item class="grid-item">
+          <i slot="icon" class="iconfont icon-shoucang"></i>
+          <span slot="icon" class="text">收藏</span>
+        </van-grid-item>
+        <van-grid-item class="grid-item">
+          <i slot="icon" class="iconfont icon-lishi"></i>
+          <span slot="icon" class="text">收藏</span>
+        </van-grid-item>
+      </van-grid>
     </div>
   </div>
 </template>
@@ -73,21 +102,67 @@ export default {
 .user-info {
   .base-info {
     height: 250px;
-    background-color: yellow;
+
     padding: 90px 32px 23px;
     box-sizing: border-box;
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    .left{
-      .avatar{
-        width: 132px;height: 132px;
+    .left {
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 30px;
+        color: #fff;
+      }
+      .avatar {
+        width: 132px;
+        height: 132px;
+        margin-right: 23px;
+        border: 5px solid #fff;
       }
     }
   }
   .data-statas {
-    height: 150px;
-    background-color: #ccc;
+    // height: 150px;
+
+    .col-ment {
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #fff;
+      .count {
+        font-size: 36px;
+      }
+      .text {
+        font-size: 23px;
+      }
+    }
+  }
+  .grid-nav {
+    .grid-item {
+      height: 140px;
+    
+      i.iconfont {
+        font-size: 45px;
+      }
+      span.text {
+        font-size: 28px;
+      }
+      .icon-shoucang{
+        color:#eb5253      
+      }
+      .icon-lishi{
+        color:#ff9d1d;
+      }
+    }
+     /deep/ .van-hairline .van-grid-item__icon-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
   }
 }
 </style>
