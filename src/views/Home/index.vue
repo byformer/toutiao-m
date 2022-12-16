@@ -19,15 +19,13 @@
       <!-- 通过 animated 属性可以开启切换标签内容时的转场动画。 -->
       <!-- 通过 swipeable 属性可以开启滑动切换标签页。 -->
       <van-tabs v-model="active" animated swipeable>
-        <van-tab title="标签 1">内容 1</van-tab>
-        <van-tab title="标签 2">内容 2</van-tab>
-        <van-tab title="标签 3">内容 3</van-tab>
-        <van-tab title="标签 4">内容 4</van-tab>
-        <van-tab title="标签 5">内容 5</van-tab>
-        <van-tab title="标签 3">内容 3</van-tab>
-        <van-tab title="标签 4">内容 4</van-tab>
-        <van-tab title="标签 5">内容 5</van-tab>
-        <!-- <div slot="nav-right" class="placeholder">123</div> -->
+        <van-tab :title="obj.name" v-for="obj in channel" :key="obj.id">
+          <!-- 文章列表 -->
+          <Article :channel="channel" />
+          <!-- 文章列表结束 -->
+        </van-tab>
+         <!-- 用一个slot 占位 -->
+        <div slot="nav-right" class="placeholder"></div>
         <div slot="nav-right" class="hamburger-btn">
           <i class="iconfont icon-gengduo"></i>
         </div>
@@ -39,24 +37,44 @@
 </template>
 
 <script>
+import Article from "./components/article-list"
+import {getUserChnnel} from "@/api/user"
 export default {
   name: "HomePage",
   data() {
     return {
       active: 0,
+      channel:[]  // 频道列表
     };
   },
-  components: {},
+  components: {
+    Article,
+  },
   props: {},
   computed: {},
   watch: {},
-  created() {},
+  created() {
+     this.getUserChnnel()
+  },
   mounted() {},
-  methods: {},
+  methods: {
+     async getUserChnnel(){
+      try{
+        const {data} = await getUserChnnel()
+      
+        this.channel = data.data.channels
+          
+      }catch(err){
+          this.$toast(' 获取频道检测失败')
+        
+      }
+     }
+  },
 };
 </script>
 
 <style lang="less" scoped>
+
 .van-nav-bar {
   background-color: #3196fa;
   /deep/ .van-nav-bar__title {
@@ -90,7 +108,6 @@ export default {
   }
   .van-tab--active{
     color: #ccc;
-    ;
   }
 
   .van-tabs__line{
@@ -99,10 +116,10 @@ export default {
     height: 6px;
     background-color: #3296fa;
   }
- /*  .placeholder{
-     width: 66px;height: 82px;
+  .placeholder{
+     width: 50px;height: 82px;
      flex-shrink: 0;
-  } */
+  }
   .hamburger-btn{
     position: fixed;
     right:0;
@@ -129,5 +146,7 @@ export default {
 /deep/   .van-tabs__nav{
     padding-bottom: 0;
   } 
+  
+  
 </style>
 
