@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem,Icon,
-    Image as VanImage,Grid, GridItem,Cell, CellGroup,Dialog
+    Image as VanImage,Grid, GridItem,Cell, CellGroup,Dialog,
 } from 'vant';
 
 Vue.use(Button);
