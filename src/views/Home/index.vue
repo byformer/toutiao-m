@@ -19,7 +19,7 @@
       <!-- 通过 animated 属性可以开启切换标签内容时的转场动画。 -->
       <!-- 通过 swipeable 属性可以开启滑动切换标签页。 -->
       <van-tabs v-model="active" animated swipeable>
-        <van-tab :title="obj.name" v-for="obj in channel" :key="obj.id">
+        <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
           <!-- 文章列表 -->
           <Article :channel="channel" />
           <!-- 文章列表结束 -->
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       active: 0,
-      channel:[]  // 频道列表
+      channels:[]  // 频道列表
     };
   },
   components: {
@@ -54,20 +54,21 @@ export default {
   computed: {},
   watch: {},
   created() {
-     this.getUserChnnel()
+     this.loadChannels()
   },
   mounted() {},
   methods: {
-     async getUserChnnel(){
+     async loadChannels(){
       try{
         const {data} = await getUserChnnel()
-      
-        this.channel = data.data.channels
+       
+        this.channels = data.data.channels
           
       }catch(err){
           this.$toast(' 获取频道检测失败')
         
       }
+      
      }
   },
 };

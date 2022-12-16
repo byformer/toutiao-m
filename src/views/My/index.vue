@@ -116,7 +116,7 @@ export default {
         async loadUserInfo(){
         try{
             const { data } = await getUserInfo()
-            console.log(data)
+            
             this.userInfo = data.data
         }catch(err){
             this.$toast("获取数据失败，请稍后重试 ")
@@ -141,12 +141,13 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    align-items: center;
     .mobile-img {
       width: 132px;
       height: 132px;
     }
     .my-text {
-      font-size: 16px;
+      font-size: 35px;
       color: #fff;
       margin-top: 15px;
       text-align: center;

@@ -4,7 +4,7 @@
 import request from "@/utils/request";
 
 // 容器模块
-import store from "@/store/index"
+
 // 验证码
 export function sendCode(mobile){
    return request({
@@ -41,7 +41,7 @@ export function getUserInfo(){
 export function getUserChnnel(){
    return request({
       method:"GET",
-      url:"/v1_0/channels",
+      url:"/v1_0/user/channels",
 
    })
 }
