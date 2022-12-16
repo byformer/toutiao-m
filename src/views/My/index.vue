@@ -196,10 +196,7 @@ export default {
     }
   }
 }
-.my-login {
-  height: 100vh;
-  background-color: rgb(245, 247, 249);
-}
+
 .grid-nav {
   margin-bottom: 15px;
   .grid-item {
