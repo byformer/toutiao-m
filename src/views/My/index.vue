@@ -8,9 +8,9 @@
             round
             class="avatar"
             fit="cover"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :src="userInfo.photo"
           />
-          <span>蔡徐坤</span>
+          <span>{{userInfo.name}}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -19,67 +19,110 @@
       <div class="data-statas">
         <van-row type="flex" justify="center">
           <van-col span="6" class="col-ment">
-            <span class="count">10</span>
+            <span class="count">{{userInfo.art_count}}</span>
             <span class="text">头条</span>
           </van-col>
           <van-col span="6" class="col-ment">
-            <span class="count">98</span>
+            <span class="count">{{userInfo.fans_count}}</span>
             <span class="text">关注</span>
           </van-col>
           <van-col span="6" class="col-ment">
-            <span class="count">10</span>
+            <span class="count">{{userInfo.follow_count}}</span>
             <span class="text">粉丝</span>
           </van-col>
           <van-col span="6" class="col-ment">
-            <span class="count">10</span>
+            <span class="count">{{userInfo.like_count}}</span>
             <span class="text">获赞</span>
           </van-col>
         </van-row>
       </div>
-      <!-- 收藏 -->
-      <van-grid column-num="2" class="grid-nav">
-        <van-grid-item class="grid-item">
-          <i slot="icon" class="iconfont icon-shoucang"></i>
-          <span slot="icon" class="text">收藏</span>
-        </van-grid-item>
-        <van-grid-item class="grid-item">
-          <i slot="icon" class="iconfont icon-lishi"></i>
-          <span slot="icon" class="text">收藏</span>
-        </van-grid-item>
-      </van-grid>
-
-      <!-- 消息通知 -->
-      <van-cell title="消息通知" is-link />
-      <van-cell class="mb-9" title="小智同学" is-link />
-      <van-cell class="logout-cell" title="退出登录"/>
     </div>
-    <!-- 未登录 -->
     <div class="contenter not-login" v-else>
       <div class="login-btn" @click="$router.push('/login')">
         <img class="mobile-img" src="@/assets/mobile.png" alt="" />
         <span class="my-text">登录 / 注册</span>
       </div>
     </div>
+    <!-- 收藏 -->
+    <van-grid column-num="2" class="grid-nav"  clickable >
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="iconfont icon-shoucang"></i>
+        <span slot="icon" class="text">收藏</span>
+      </van-grid-item>
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="iconfont icon-lishi"></i>
+        <span slot="icon" class="text">收藏</span>
+      </van-grid-item>
+    </van-grid>
 
+    <!-- 消息通知 -->
+    <van-cell title="消息通知" is-link />
+    <van-cell class="mb-9" title="小智同学" is-link />
+    <van-cell
+      v-if="user"
+      class="logout-cell"
+      title="退出登录"
+      clickable
+      @click="onLogout"
+    />
   </div>
+  <!-- 未登录 -->
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
+import {getUserInfo} from "@/api/user";
 export default {
   name: "MyPage",
   data() {
-    return {};
+    return {
+      userInfo:{}  //用户信息
+    };
   },
   components: {},
   props: {},
   computed: {
-    ...mapState(['user'])
+    ...mapState(["user"]),
   },
   watch: {},
-  created() {},
+  created() {
+    // 如果用户登录了。则请求加载用户数据
+    if(this.user){
+      this.loadUserInfo()
+    }
+  },
   mounted() {},
-  methods: {},
+  methods: {
+
+    onLogout() {
+      //  退出提示
+      //  在组件中要使用this.$dialog 来调用弹窗组件
+
+      this.$dialog
+        .confirm({
+          title: "确认退出吗？",
+        })
+        .then(() => {
+          //  确认退出：则清除登录状态 (容器中的 user 和 本地存储的 user)
+          //  给容器中的serUser 设置为null
+          this.$store.commit("setUser", null);
+        })
+        .catch(() => {
+          // on cancel
+          console.log("取消");
+        });
+    },
+
+        async loadUserInfo(){
+        try{
+            const { data } = await getUserInfo()
+            console.log(data)
+            this.userInfo = data.data
+        }catch(err){
+            this.$toast("获取数据失败，请稍后重试 ")
+        }
+    },
+  },
 };
 </script>
 
@@ -152,42 +195,39 @@ export default {
       }
     }
   }
-  .grid-nav {
-    margin-bottom:15px;
-    .grid-item {
-      height: 140px;
+}
+.my-login {
+  height: 100vh;
+  background-color: rgb(245, 247, 249);
+}
+.grid-nav {
+  margin-bottom: 15px;
+  .grid-item {
+    height: 140px;
 
-      i.iconfont {
-        font-size: 45px;
-      }
-      span.text {
-        font-size: 28px;
-      }
-      .icon-shoucang {
-        color: #eb5253;
-      }
-      .icon-lishi {
-        color: #ff9d1d;
-      }
+    i.iconfont {
+      font-size: 45px;
     }
-    /deep/ .van-hairline .van-grid-item__icon-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    span.text {
+      font-size: 28px;
+    }
+    .icon-shoucang {
+      color: #eb5253;
+    }
+    .icon-lishi {
+      color: #ff9d1d;
     }
   }
-  .logout-cell {
-    margin-top: 10px;
-    text-align: center;
-    color: #d86262;
-  }
-   .mb-9 {
-    // margin-bottom: px;
+  /deep/ .van-hairline .van-grid-item__icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
-.my-login{
-  height:100vh;
-  background-color:rgb(245,247,249)
+.logout-cell {
+  margin-top: 10px;
+  text-align: center;
+  color: #d86262;
 }
 </style>
 

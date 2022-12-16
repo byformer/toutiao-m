@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem,Icon,
-    Image as VanImage,Grid, GridItem,Cell, CellGroup
+    Image as VanImage,Grid, GridItem,Cell, CellGroup,Dialog
 } from 'vant';
 
 Vue.use(Button);
@@ -19,3 +19,4 @@ Vue.use(Grid);
 Vue.use(GridItem);
 Vue.use(Cell);
 Vue.use(CellGroup);
+Vue.use(Dialog);

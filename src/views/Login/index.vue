@@ -81,7 +81,7 @@
 
 <script>
 import { sendCode, login } from '../../api/user'
-// import { Toast } from 'vant'
+
 
 export default {
   name: 'LoginPage',
@@ -141,7 +141,7 @@ export default {
         const {data} = await login(values)
         this.$store.commit('setUser',data.data)
         
-         this.$router.push({ name: 'layout' })
+         this.$router.push({ name: 'my' })
         // await new Promise(resolve => setTimeout(resolve, 5000))
         // 登录成功，
         // localStorage.setItem('token', JSON.stringify(res.data.data))
