@@ -30,12 +30,25 @@
         </van-tab>
         <!-- 用一个slot 占位 -->
         <div slot="nav-right" class="placeholder"></div>
-        <div slot="nav-right" class="hamburger-btn">
+        <div slot="nav-right"
+         class="hamburger-btn"
+          @click="isShow = true">
           <i class="iconfont icon-gengduo"></i>
         </div>
       </van-tabs>
 
       <!-- 频道列表结束 -->
+
+      <!-- 频道编辑弹出层 -->
+      <van-popup
+        v-model="isShow"
+        closeable
+        position="bottom"
+         close-icon-position="top-left"
+        :style="{ height: '100%' }"
+      >
+      <ChannelEdit :myChannels="channels"/>
+      </van-popup>
     </div>
   </div>
 </template>
@@ -43,16 +56,19 @@
 <script>
 import Article from "./components/article-list";
 import { getUserChnnel } from "@/api/user";
+import ChannelEdit from "./components/channel-edit";
 export default {
   name: "HomePage",
   data() {
     return {
       active: 0,
       channels: [], // 频道列表
+      isShow:false,  // 控制编辑频道弹出层的显示状态
     };
   },
   components: {
     Article,
+    ChannelEdit,
   },
   props: {},
   computed: {},
@@ -98,7 +114,6 @@ export default {
   max-width: unset;
 }
 /deep/ .van-tabs__nav {
-
   .van-tab {
     border-right: 1px solid #edeff3;
     min-width: 200px;
@@ -147,17 +162,20 @@ export default {
 /deep/ .van-tabs__nav {
   padding-bottom: 0;
 }
- /deep/ .van-tabs__wrap {
-    height: 82px;
-    position: fixed;
-    top: 90px;
-    z-index: 999;
-    left: 0;
-    right: 0;
-  }
-  .my-login{
-    padding-top: 175px;
-    padding-bottom: 100px;
-  }
+/deep/ .van-tabs__wrap {
+  height: 82px;
+  position: fixed;
+  top: 90px;
+  z-index: 999;
+  left: 0;
+  right: 0;
+}
+.my-login {
+  padding-top: 175px;
+  padding-bottom: 100px;
+}
+/deep/ .van-icon-cross::before{
+  color:#ccc
+}
 </style>
 
