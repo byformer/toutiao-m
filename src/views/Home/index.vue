@@ -47,7 +47,11 @@
          close-icon-position="top-left"
         :style="{ height: '100%' }"
       >
-      <ChannelEdit :myChannels="channels"/>
+      <ChannelEdit 
+      :myChannels="channels"
+      :active="active"
+      @updata-active="onUpdataActive"
+      />
       </van-popup>
     </div>
   </div>
@@ -87,6 +91,12 @@ export default {
         this.$toast(" 获取频道检测失败");
       }
     },
+    onUpdataActive(index ,isShow = true){
+      // 更新激活的频道项
+        this.active  = index
+        // 关闭编辑频道弹层
+        this.isShow = isShow
+    }
   },
 };
 </script>
