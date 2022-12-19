@@ -70,7 +70,7 @@ export default {
         });
 
         const { results } = data.data;
-        console.log(results)
+    
         //  数组的展开操作符，它会把元素一个一个拿出来
         // 2. 把请求结果数据放到list数组中
         this.list.push(...results);
