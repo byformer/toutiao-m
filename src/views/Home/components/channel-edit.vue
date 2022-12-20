@@ -57,7 +57,9 @@
 </template>
 
 <script>
-import { getAllChannels } from "@/api/channel";
+import { getAllChannels, addUserChannels,deleteUserChannels } from "@/api/channel";
+import { mapState } from "vuex";
+import { setItem } from "@/utils/storage";
 export default {
   name: "ChannelEdit",
   data() {
@@ -81,18 +83,16 @@ export default {
   computed: {
     // 计算属性会观测内部依赖数据的变化
     //  如果依赖的数据发生变化，则计算属性会重新执行
-
+    ...mapState(["user"]),
     recommendChannels() {
-    //   const channels = [];
-    return  this.allChannels.filter((channel) => {
+      //   const channels = [];
+      return this.allChannels.filter((channel) => {
         //  find 也是遍历数组，找到满足条件的元素项
         return !this.myChannels.find((myChannel) => {
           return myChannel.id === channel.id;
         });
         // 如果我的频道中不包括该频道，则收集到推荐频道中
-       
       });
-      
     },
   },
   watch: {},
@@ -110,28 +110,63 @@ export default {
         this.$toast("数据获取失败");
       }
     },
-    onAddChannel(channel) {
+    async onAddChannel(channel) {
       this.myChannels.push(channel);
+      // 数据持久化处理
+
+      if (this.user) {
+        // 已登录，把数据请求接口到线上
+        try {
+          await addUserChannels({
+            id: channel.id, // 频道id
+            seq: this.myChannels.length, // 序号
+          });
+        } catch (err) {
+          this.$toast("保存失败，请稍后重试");
+        }
+      } else {
+        // 未登录，把数据存储到本地
+        setItem("TOUTIAO_CHANNELS", this.myChannels);
+      }
     },
     onMyChannelClick(channel, index) {
       if (this.isEdit) {
         // 1. 如果是固定频道，则不删除
-        if(this.flexChannels.includes(channel.id)){
-            return
+        if (this.flexChannels.includes(channel.id)) {
+          return;
         }
         // 2. 删除频道项
-         this.myChannels.splice(index,1)
+        this.myChannels.splice(index, 1);
         //    如果是编辑状态，执行删除频道
-        if(index <= this.active){
-            // 让激活频道的索引 -1
-            this.$emit("updata-active",this.active -1,true)
+        if (index <= this.active) {
+          // 让激活频道的索引 -1
+          this.$emit("updata-active", this.active - 1, true);
         }
-       
+        // 4. 处理持久化
+        this.deleteChannel()
       } else {
         //     非编辑状态，执行切换频道
-        this.$emit('updata-active',index,false)
+        this.$emit("updata-active", index, false);
       }
     },
+   async deleteChannel(channel){
+    try{
+  if(this.user){
+        //  已登录，则将数据更新到线上
+        if(this.user){
+          await deleteUserChannels(channel.id)
+        }else{
+            setItem("TOUTIAO_CHANNELS",this.myChannels)
+        }
+     
+      }else{
+        //  未登录，将数据更新到本地
+      }
+    }catch(err){
+      this.$toast("操作失败，请稍后重试")
+    }
+    
+    }
   },
 };
 </script>

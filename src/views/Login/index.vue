@@ -130,7 +130,7 @@ export default {
     },
     // 这个 onSubmit 函数，只有当表单校验通过时，才会执行
     async onSubmit(values) {
-      console.log('submit', values)
+      
       this.$toast.loading({
         message: '登录中...',
         forbidClick: true,

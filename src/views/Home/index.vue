@@ -61,7 +61,9 @@
 import Article from "./components/article-list";
 import { getUserChnnel } from "@/api/user";
 import ChannelEdit from "./components/channel-edit";
-export default {
+import { mapState } from "vuex"
+import {getItem} from "@/utils/storage"
+ export default {
   name: "HomePage",
   data() {
     return {
@@ -75,7 +77,9 @@ export default {
     ChannelEdit,
   },
   props: {},
-  computed: {},
+  computed: {
+    ...mapState(["user"])
+  },
   watch: {},
   created() {
     this.loadChannels();
@@ -84,9 +88,26 @@ export default {
   methods: {
     async loadChannels() {
       try {
-        const { data } = await getUserChnnel();
-
-        this.channels = data.data.channels;
+      /*   const { data } = await getUserChnnel();
+        this.channels = data.data.channels; */
+        let channels = []
+        if(this.user){
+          //  已登录，请求获取用户频道列表
+           const { data } = await getUserChnnel();
+           channels = data.data.channels
+        }else{
+          // 未登录，判断是否有本地的频道列表数据
+          const localChannels = getItem("TOUTIAO_CHANNELS")
+          //  有，拿过来用
+          if(localChannels){
+            channels = localChannels
+          }else{
+            //  没有，请求默认频道列表
+            const { data } = await getUserChnnel();
+            channels = data.data.channels
+          }
+        }
+        this.channels = channels
       } catch (err) {
         this.$toast(" 获取频道检测失败");
       }
