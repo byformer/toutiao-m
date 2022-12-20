@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Button,NavBar,Form,Field,Col, Row,CountDown,Toast,Tabbar, TabbarItem,Icon,
     Image as VanImage,Grid, GridItem,Cell, CellGroup,Dialog,Tab, Tabs,List,PullRefresh,Popup,
+    Search,
 } from 'vant';
 
 Vue.use(Button);
@@ -25,3 +26,4 @@ Vue.use(Tabs);
 Vue.use(List);
 Vue.use(PullRefresh);
 Vue.use(Popup);
+Vue.use(Search);
