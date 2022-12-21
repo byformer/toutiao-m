@@ -1,55 +1,79 @@
 <template>
- <div class="search-result">
-<van-list
-  v-model="loading"
-  :finished="finished"
-  finished-text="没有更多了"
-  @load="onLoad"
->
-  <van-cell v-for="item in list" :key="item" :title="item" />
-</van-list>
- </div>
+  <div class="search-result">
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      :error="error"
+      error-text="加载失败，请点击重试"
+      @load="onLoad"
+    >
+      <van-cell v-for="(article,index) in list"
+       :key="index"
+        :title="article.title" />
+    </van-list>
+  </div>
 </template>
 
 <script>
+import { getSearchResult } from "@/api/search";
 export default {
   name: "SearchResult",
   data() {
     return {
-       list: [],
+      list: [],
       loading: false,
       finished: false,
+      page: 1,
+      parPage: 20,
+      error:false,
     };
   },
   components: {},
-  props: {},
+  props: {
+    searchText: {
+      type: String,
+      required: true,
+    },
+  },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
   methods: {
-      onLoad() {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
+    async onLoad() {
+      try {
+        //  1. 请求获取数据
+        const { data } = await getSearchResult({
+          page: this.page, // 页码
+          per_page: this.parPage, // 每页大小
+          q: this.searchText, // 查询关键字
+        });
+        //  2. 将数据添加到数组列表中
+        const { results } = data.data;
+        this.list.push(...results);
+        //  3. 将本次加载中的loading 关闭
         this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
+        //  4. 判断是否还有数据
+        if (results.length) {
+          // 如果有，则更新获取下一页数据的页码
+          this.page++;
+        } else {
+          //      如果没有，则将加载状态 finished 设置为结束
+          this.finished = true
         }
-      }, 1000);
+
+      } catch (err) {
+        // 显示加载失败的提示状态
+        this.error = true
+        //  加载失败了loading 也要关闭
+        this.loading = false
+      }
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-
 </style>
 
