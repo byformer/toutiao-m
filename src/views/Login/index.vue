@@ -96,12 +96,14 @@ export default {
     }
   },
   methods: {
+     
     onChangeOfCountDown({ seconds }) {
       // console.log(seconds)
       if (seconds === 0) {
         this.isShowCountDown = false
       }
     },
+    
     async sendCode() {
       // 1. 验证手机号码是否正确
       //  this.$refs.form 可以获取到 van-form 组件实例
@@ -139,6 +141,7 @@ export default {
       try {
         // 1. 发请求
         const {data} = await login(values)
+       
         this.$store.commit('setUser',data.data)
         
          this.$router.push({ name: 'my' })

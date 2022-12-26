@@ -7,8 +7,9 @@ module.exports = {
         rootValue ({ file }) {
             return file.indexOf('vant') !== -1 ? 37.5 : 75
           },      // 设计稿 750px 750/10  = 75
-        propList: ['*']  // 表示所有属性都转
+        propList: ['*'],  // 表示所有属性都转
         //注意： 这个插件转换不了内连样式
+        exclude: 'github-markdown'
       }
     }
   }
