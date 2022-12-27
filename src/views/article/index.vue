@@ -35,13 +35,25 @@
           <div slot="label" class="publish-date">
             {{ articleList.pubdate | relativeTime }}
           </div>
+             <van-button
+          v-if="articleList.is_followed"
+            class="follow-btn"
+            @click="onFollow"
+            round
+            :loading="followLoading"
+            size="small"
+            >已关注</van-button
+          >
           <van-button
+          v-else
             class="follow-btn"
             type="info"
             color="#3296fa"
             round
+            :loading="followLoading"
             size="small"
             icon="plus"
+            @click="onFollow"
             >关注</van-button
           >
           <!-- <van-button
@@ -95,7 +107,7 @@
 <script>
 import { getArticleById } from "@/api/article";
 import { ImagePreview } from "vant";
-
+import {addFollow,deleteFollow} from "@/api/user"
 export default {
   name: "ArticleIndex",
   components: {},
@@ -110,6 +122,7 @@ export default {
       articleList: [], // 文章详情
       loading: true, // 加载中的loading状态
       status: 0, // 失败状态码
+      followLoading:false,
     };
   },
   computed: {},
@@ -133,7 +146,7 @@ export default {
         setTimeout(() => {
           this.previewImage();
         }, 0);
-        console.log(data);
+     
       } catch (err) {
         if (err.response && err.response.status === 404) {
           this.status = 404;
@@ -157,8 +170,30 @@ export default {
           });
         };
       });
-      console.log(images);
+      
     },
+   async onFollow(){
+    this.followLoading = true // 展示关注按钮的loading状态
+      try{
+        if(this.articleList.is_followed){
+          //  已关注，取消关注
+          await deleteFollow(this.articleList.aut_id)
+          
+        }else{
+          //  没有关注，添加关注
+        await addFollow(this.articleList.aut_id)
+          
+        }
+        this.articleList.is_followed = !this.articleList.is_followed
+      }catch(err){
+        let message = '操作失败，请重试'
+        if(err.response && err.response.status === 400){
+          message = '你不能关注你自己!'
+        }
+          this.$toast(message)
+      }
+      this.followLoading = false; // 关闭关注按钮的loading状态
+    }
   },
 };
 </script>
